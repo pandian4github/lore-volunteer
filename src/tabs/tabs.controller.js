@@ -50,16 +50,13 @@
         	quizDetails['language'] = language;
         	quizDetails['materials_link'] = material;
         	quizDetails['name'] = quizname;
-        	
-        	var postBody = {};
-        	postBody[quizId] = quizDetails;
-        	
-        	$http.put('https://vroom-83bc4.firebaseio.com/quiz_categories/' + category + '.json', JSON.stringify(postBody)).then(function(response) {
-//        		alert(response.data);
-        	}, function(response) {
-        		alert ('Error posting quiz details!');
-        	});
-//        	alert(JSON.stringify(postBody));
+        	        	
+        	$http.put('https://vroom-83bc4.firebaseio.com/quiz_categories/' + category + '/' + quizId + '.json', JSON.stringify(quizDetails))
+        		.then(function(response) {
+
+        		}, function(response) {
+        			alert ('Error posting quiz details!');
+        		});
         }
         
         function addQuestions() {
@@ -84,15 +81,13 @@
         		questions.push(current_question);
         	}
         	
-        	$http.put('https://vroom-83bc4.firebaseio.com/' + quizId + '.json', JSON.stringify(questions)).then(function(response) {
-//        		alert(response.data);
-        	}, function(response) {
-        		alert ('Error posting question details!');
-        	});
+        	$http.put('https://vroom-83bc4.firebaseio.com/' + quizId + '.json', JSON.stringify(questions))
+        		.then(function(response) {
+        		
+        		}, function(response) {
+        			alert ('Error posting question details!');
+        		});
         	
-//        	alert(JSON.stringify(questions));
-        
-//        	alert('submit');
         }
         
         function setTab(newTab){
