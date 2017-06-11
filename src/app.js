@@ -10,8 +10,8 @@
     function config($routeProvider, $locationProvider, $qProvider) {
         $routeProvider
             .when('/', {
-                controller: 'HomeController',
-                templateUrl: 'home/home.view.html',
+                controller: 'TabController',
+                templateUrl: 'tabs/tabs.view.html',
                 controllerAs: 'vm'
             })
 
