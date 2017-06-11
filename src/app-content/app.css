@@ -5,24 +5,28 @@
 @import "compass/css3";
 
 body {
-  margin: 15px;
+	margin: 5px;
+	background-color: #404954;
 }
 
 /* text recolor */
-h1, p, a {
-  color: #4DC9C9 !important;
+/* h1, p, a {
+  color: #000000!important;
 }
-
+ */
+ 
 /* button recolor */
 .nav-pills > li.active > a, .btn-primary {
-  background-color: #6C6C6C !important;
+  background-color: #606060!important;
   // feeling like it's a rounded corners kind of day
   border-color: #6C6C6C !important;
   border-radius: 25px; 
 }
 
-
-
+.loreheading {
+	color: #333b44;
+}
+ 
 /* 
 .tabsdemoDynamicTabs md-content {
   background-color: transparent !important; }

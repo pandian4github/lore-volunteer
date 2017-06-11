@@ -17,6 +17,8 @@
         vm.setTab = setTab
         vm.submitAddQuizForm = submitAddQuizForm
         vm.updateNumQuestions = updateNumQuestions
+        vm.getAddedQuizzes = getAddedQuizzes
+        vm.getCorrectOption = getCorrectOption
         
         function updateNumQuestions() {
         	var N = vm.numquestions 
@@ -43,13 +45,15 @@
         	var category = vm.category;
         	var quizname = vm.quizname;
         	var quizId = 'quiz' + Math.floor((Math.random() * 100000) + 1); // Generate random whole number between 1 and 100000
-        	vm.quizId = quizId;
+        	vm.quizId = quizId;        	
+        	var user = vm.user
         	
         	var quizDetails = {};        	
         	quizDetails['display_image_link'] = '';
         	quizDetails['language'] = language;
         	quizDetails['materials_link'] = material;
         	quizDetails['name'] = quizname;
+        	quizDetails['user'] = user;
         	        	
         	$http.put('https://vroom-83bc4.firebaseio.com/quiz_categories/' + category + '/' + quizId + '.json', JSON.stringify(quizDetails))
         		.then(function(response) {
@@ -90,6 +94,87 @@
         	
         }
         
+        function sleep(ms) {
+        	  return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        
+        function getCorrectOption(ans) {
+        	if (ans == "option1") {
+        		return "a";
+        	}
+        	if (ans == "option2") {
+        		return "b";
+        	}
+        	if (ans == "option3") {
+        		return "c";
+        	}
+        }
+        
+        function getAddedQuizzes() {
+        	var user = vm.user;
+        	
+        	console.log(JSON.stringify(vm.all_quiz_details));
+        	
+        	$http.get('https://vroom-83bc4.firebaseio.com/quiz_categories.json/')
+    		.then(function(responseData) {
+    			console.log('Response of getting quiz details: ' + JSON.stringify(responseData));
+    			var response = responseData['data'];
+    			
+    			vm.all_quiz_details = []
+    			for (var category in response) {
+    				console.log(category);
+    				if (response.hasOwnProperty(category)) {
+    					var quizzes = response[category];
+    					for (var quizId in quizzes) {
+    						console.log(quizId);
+    						if (quizzes.hasOwnProperty(quizId)) {
+    							var quiz = quizzes[quizId];
+    							console.log(quiz['user'] + "----" + user);
+    							if (quiz['user'] === user) {
+    								console.log('Getting questions..');
+    								$http.get('https://vroom-83bc4.firebaseio.com/' + quizId + '.json')
+    									.then((function(category2, user2, quizId2, language2, display_image_link2, material2, quizname2) {
+    										console.log('into top function');
+    										return function(response2Data) {
+    											console.log('into below function');
+    	    				        			console.log('Response of getting questions: ' + JSON.stringify(response2Data));
+    	    				        			var response2 = response2Data['data'];
+    	    				        			    				        			
+    	    				        			var quiz_details = {};
+    	    				        			quiz_details['category'] = category2;
+    	    				        			quiz_details['user'] = user2;
+    	    				        			quiz_details['quizId'] = quizId2;
+    	    				        			quiz_details['language'] = language2;
+    	    				        			quiz_details['display_image_link'] = display_image_link2;
+    	    				        			quiz_details['material'] = material2;
+    	    				        			quiz_details['quizname'] = quizname2;
+    	    				        			quiz_details['questions'] = response2;
+    	    				        			
+    	    				        			console.log('Adding ' + JSON.stringify(quiz_details) + ' to all_quiz_details..');
+    	    				        			vm.all_quiz_details.push(quiz_details);
+    										}
+    									})(category, user, quizId, quiz['language'], quiz['display_image_link'], quiz['materials_link'], quiz['name']));
+    								
+//    				        		.then(function(response2Data) {
+//
+//    				        		}, function(response) {
+//    				        			alert ('Error getting list of questions!');
+//    				        		});    								
+    							}
+    						}
+    					}
+    				}
+    			}
+    			console.log(JSON.stringify(vm.all_quiz_details));
+    			sleep(5000);
+    			console.log(JSON.stringify(vm.all_quiz_details));
+//    			alert(JSON.stringify(vm.all_quiz_details));
+//    			vm.all_quiz_details = all_quiz_details;
+    		}, function(response) {
+    			alert ('Error getting quiz details!');
+    		});
+        }
+        
         function setTab(newTab){
           vm.tab = newTab;
         };
@@ -99,7 +184,7 @@
         };
 
         function loadCurrentUser() {
-        	vm.user = 'Pandian';
+        	vm.user = 'pandian';
 //            UserService.GetByUsername($rootScope.globals.currentUser.username)
 //                .then(function (user) {
 //                    vm.user = user;

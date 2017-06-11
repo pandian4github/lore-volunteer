@@ -8,9 +8,19 @@
 </head>
 
 <body>
+
+	<div style="margin-top:10px;background-color:#FFFFFF;">
+		<div class="col-md-2">
+			<img src="lore_logo_burned.png" alt="LORE Logo" style="width:300px;height:70px;margin-left:10px;margin-top:10px;" >
+		</div>
+		<div class="col-md-9" style="color:#FFFFFF;margin-top:10px;"> 
+			<center><h1 class="loreheading">LORE - Anyone can become a teacher</h1></center>
+		</div>
+	</div>
+	
     <div class="jumbotron">
         <div class="container">
-            <div class="col-sm-8 col-sm-offset-2">
+            <div class="col-md-12">
                 <div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash" ng-bind="flash.message"></div>
                 <div ng-view></div>
             </div>
@@ -18,7 +28,7 @@
     </div>
     <div class="credits text-center">
         <p>
-            <a href="https://chimehack4.devpost.com/">CHIMEHACK 4</a>
+            <a href="https://chimehack4.devpost.com/" style="color:white;"><b>CHIMEHACK 4</b></a>
         </p>
     </div>
 

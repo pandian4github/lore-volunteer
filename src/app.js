@@ -5,9 +5,9 @@
         .module('app', ['ngRoute', 'ngCookies'])
         .config(config)
         .run(run);
-
-    config.$inject = ['$routeProvider', '$locationProvider'];
-    function config($routeProvider, $locationProvider) {
+    
+    config.$inject = ['$routeProvider', '$locationProvider', '$qProvider'];
+    function config($routeProvider, $locationProvider, $qProvider) {
         $routeProvider
             .when('/', {
                 controller: 'HomeController',
@@ -34,6 +34,7 @@
             })
 
             .otherwise({ redirectTo: '/login' });
+        $qProvider.errorOnUnhandledRejections(false);
     }
 
     run.$inject = ['$rootScope', '$location', '$cookies', '$http'];

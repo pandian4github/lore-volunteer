@@ -1,45 +1,96 @@
 
 <div class="container">
   <div class="row" ng-controller="TabController">
-  	<div class="col-md-2">
+  	<div class="col-md-2" style="margin-top:45px">
   		<ul class="nav nav-pills nav-stacked">
        	<li ng-class="{ active: vm.isSet(1) }">
-          	<a href ng-click="vm.setTab(1)">Home</a>
+          	<a href ng-click="vm.setTab(1)"><b>Home</b></a>
        	</li>
        	<li ng-class="{ active: vm.isSet(2) }">
-          	<a href ng-click="vm.setTab(2)">Profile</a>
+          	<a href ng-click="vm.setTab(2); vm.getAddedQuizzes()"><b>Profile</b></a>
        	</li>
        	<li ng-class="{ active: vm.isSet(3) }">
-          	<a href ng-click="vm.setTab(3)">Add Quiz</a>
+          	<a href ng-click="vm.setTab(3)"><b>Add Quiz</b></a>
        	</li>
        	<li ng-class="{ active: vm.isSet(4) }">
-          	<a href ng-click="vm.setTab(4)">Messages</a>
+          	<a href ng-click="vm.setTab(4)"><b>Messages</b></a>
+       	</li>
+       	<li ng-class="{ active: vm.isSet(5) }">
+          	<a href="#!/login" ng-click="vm.setTab(5)"><b>Logout</b></a>
        	</li>
      	</ul>
   	</div>
   	
-    <div class="col-md-8">
-  		<div class="jumbotron">
+    <div class="col-md-9" style="margin-top:35px">
        	<div ng-show="vm.isSet(1)">
-         	<h1>Home</h1>
-           	<p>Welcome {{vm.user.firstName}}!!</p>
+         	<h2>Home</h2>
+           	<p><b>Welcome {{vm.user}}!!</b></p>
  
            	Lore is a mobile education tool which aims at educating kids who do not have access to formal education. Thanks for being a volunteer to help the kids and spread education. You can do the following: 
-
-          	<li> Add a new quiz set by adding a set of learning slides and a corresponding set of questions as a quiz. </li>
-          	<li> View your profile, the list of quizzes added and the feedback received from the kids for those quizzes.  </li>
-          	<li> View your messages and respond to the messages. </li>
+			<br>
+			<ul>
+	          	<li> Add a new quiz set by adding a set of learning slides and a corresponding set of questions as a quiz. </li>
+	          	<li> View your profile, the list of quizzes added and the feedback received from the kids for those quizzes.  </li>
+	          	<li> View your messages and respond to the messages. </li>
+          	</ul>
+          	<hr>
+          	<hr>
            	
-         	 <p><a class="btn btn-primary btn-lg" role="button">Learn more</a></p>
         </div>
 		
 		<div ng-show="vm.isSet(2)">
-          <h1>Profile</h1>
-          <p>Profile information</p>
+          <h2>Profile</h2>
+          <h3> Quizzes added </h3>
+          <div ng-repeat="quiz in vm.all_quiz_details">
+          	<table class="table">
+          	<tbody>
+          		<tr bgcolor=#8a9fb7>
+          			<td>Quiz ID</td>
+          			<td>{{ quiz.quizId }}</td>
+          		</tr>
+          		<tr>
+          			<td>Name</td>
+          			<td>{{ quiz.quizname }}</td>
+          		</tr>
+          		<tr>
+          			<td>Category</td>
+          			<td>{{ quiz.category }}</td>
+          		</tr>
+          		<tr>
+          			<td>Language</td>
+          			<td>{{ quiz.language }}</td>
+          		</tr>
+          		<tr>
+          			<td>Material</td>
+          			<td>{{ quiz.material }}</td>
+          		</tr>
+          		<tr>
+          			<td>Questions</td>
+          			<td>
+          				<div ng-repeat="question in quiz.questions">
+          					<b>Q: </b> {{ question.question_text }}
+          					<table class="table">
+          						<tbody>
+          							<tr> 
+          								<td> a) {{ question.option1 }} </td> 
+          								<td> b) {{ question.option2 }} </td>
+          								<td> c) {{ question.option3 }} </td> 
+          							</tr>
+          						</tbody>
+          					</table>
+          					<b>Ans: </b> {{ vm.getCorrectOption(question.answer) }}
+          					<hr>
+          				</div>
+					</td>
+          		</tr>
+          	</tbody>
+          	</table>
+          	<hr>
+          </div>
      	</div>
         
         <div ng-show="vm.isSet(3)">
-          <h1>Add Quiz</h1>
+          <h2>Add Quiz</h2>
            <form ng-submit="vm.submitAddQuizForm()">
           	<div class="form-group">
           	
