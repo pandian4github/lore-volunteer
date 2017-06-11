@@ -19,6 +19,8 @@
         vm.updateNumQuestions = updateNumQuestions
         vm.getAddedQuizzes = getAddedQuizzes
         vm.getCorrectOption = getCorrectOption
+        vm.getUserMessages = getUserMessages
+        vm.sendMessage = sendMessage
         
         function updateNumQuestions() {
         	var N = vm.numquestions 
@@ -175,6 +177,93 @@
     		});
         }
         
+        function getUserMessages() {
+        	getReceivedMessages();
+        	getSentMessages();
+        }
+        
+        function getReceivedMessages() {
+        	var user = vm.user;
+        	console.log(JSON.stringify(vm.received_messages));
+        	$http.get('https://vroom-83bc4.firebaseio.com/messages/' + user + '/received.json/')
+    			.then(function(responseData) {
+    				var response = responseData['data'];
+    				console.log(JSON.stringify(response));
+    				vm.received_messages = []
+        			for (var otherUser in response) {
+        				if (response.hasOwnProperty(otherUser)) {
+        					var messages = response[otherUser];
+        					for (var messageKey in messages) {
+        						if (messages.hasOwnProperty(messageKey)) {
+        							var message = messages[messageKey]; 
+            						
+        							var messageInfo = {};
+            						messageInfo['user'] = otherUser;
+            						messageInfo['message'] = message;
+            						console.log('Received message: ' + JSON.stringify(messageInfo));
+            						vm.received_messages.push(messageInfo);
+        						}
+        					}
+        				}
+        			}
+    				
+    			});
+        }
+        
+        function getSentMessages() {
+        	var user = vm.user;
+        	console.log(JSON.stringify(vm.sent_messages));
+        	$http.get('https://vroom-83bc4.firebaseio.com/messages/' + user + '/sent.json/')
+    			.then(function(responseData) {
+    				var response = responseData['data'];
+    				console.log(JSON.stringify(response));
+    				vm.sent_messages = []
+        			for (var otherUser in response) {
+        				if (response.hasOwnProperty(otherUser)) {
+        					var messages = response[otherUser];
+        					for (var messageKey in messages) {
+        						if (messages.hasOwnProperty(messageKey)) {
+        							var message = messages[messageKey]; 
+            						
+        							var messageInfo = {};
+            						messageInfo['user'] = otherUser;
+            						messageInfo['message'] = message;
+            						console.log('Sent message: ' + JSON.stringify(messageInfo));
+            						vm.sent_messages.push(messageInfo);
+        						}
+        					}
+        				}
+        			}
+    				
+    			});
+        }
+        
+        function sendMessage() {
+        	var user = vm.user;
+        	var otherUser = vm.userToSend;
+        	var messageKey = 'key' + Math.floor((Math.random() * 100000) + 1); // Generate random whole number between 1 and 100000
+        	
+        	var message = vm.messageToSend;
+        	$http.put('https://vroom-83bc4.firebaseio.com/messages/' + user + '/sent/' + otherUser + '/' + messageKey + '.json', JSON.stringify(message))
+	    		.then(function(response) {
+	
+	    		}, function(response) {
+	    			alert ('Error sending message to the user!');
+	    		});
+        	$http.put('https://vroom-83bc4.firebaseio.com/messages/' + otherUser + '/received/' + user + '/' + messageKey + '.json', JSON.stringify(message))
+	    		.then(function(response) {
+	
+	    		}, function(response) {
+	    			alert ('Error sending message to the user!');
+	    		});
+        	
+        	vm.messageToSend = '';
+        	vm.userToSend = '';
+        	
+        	alert('Message sent successfully!');
+        	
+        }
+
         function setTab(newTab){
           vm.tab = newTab;
         };

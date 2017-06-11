@@ -16,7 +16,7 @@ body {
  */
  
 /* button recolor */
-.nav-pills > li.active > a, .btn-primary {
+.nav-pills > li.active > a {
   background-color: #606060!important;
   // feeling like it's a rounded corners kind of day
   border-color: #6C6C6C !important;

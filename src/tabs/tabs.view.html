@@ -13,7 +13,7 @@
           	<a href ng-click="vm.setTab(3)"><b>Add Quiz</b></a>
        	</li>
        	<li ng-class="{ active: vm.isSet(4) }">
-          	<a href ng-click="vm.setTab(4)"><b>Messages</b></a>
+          	<a href ng-click="vm.setTab(4); vm.getUserMessages()"><b>Messages</b></a>
        	</li>
        	<li ng-class="{ active: vm.isSet(5) }">
           	<a href="#!/login" ng-click="vm.setTab(5)"><b>Logout</b></a>
@@ -193,8 +193,68 @@
       	</div>
 
         <div ng-show="vm.isSet(4)">
-          <h1>Messages</h1>
-          <p> Some messages </p>
+          <h2>Messages</h2>
+          
+          <table class="table">
+          	<tbody> 
+          		<tr bgcolor=#8FBC8F><td><b>Send a new message</b></td></tr>
+          	</tbody>
+          </table>
+          
+          <form ng-submit="vm.sendMessage()">
+          	<div class="form-group">
+          	
+	          	<label for="userToSend">Username to send</label>
+	          	<input type="text" class="form-control" id="userToSend" placeholder="Enter an username" ng-model="vm.userToSend">
+	          	
+	  			<div class="form-group">
+    				<label for="messageToSend">Message to send</label>
+    				<textarea class="form-control" id="messageToSend" rows="4" ng-model="vm.messageToSend"></textarea>
+  				</div>
+	          	
+	  			<button type="submit" class="btn btn-primary">Send message</button>
+          	</div>
+          </form>
+          
+
+          <table class="table">
+          	<tbody> 
+          		<tr bgcolor=#8a9fb7><td><b>Received Messages</b></td></tr>
+          	</tbody>
+          </table>
+          
+          <table class="table">
+	          <tbody>
+	          	<tr>
+	          		<th>User</th>
+	          		<th>Message</th>
+	          	</tr>
+	       		<tr ng-repeat="message in vm.received_messages">
+	       			<td> {{ message.user }} </td>
+	       			<td> {{ message.message }} </td>
+	       		</tr>
+	          </tbody>
+          </table>
+          
+          <table class="table">
+          	<tbody> 
+          		<tr bgcolor=#8a9fb7><td><b>Sent Messages</b></td></tr>
+          	</tbody>
+          </table>
+          
+          <table class="table">
+	          <tbody>
+	          	<tr>
+	          		<th>User</th>
+	          		<th>Message</th>
+	          	</tr>
+	       		<tr ng-repeat="message in vm.sent_messages">
+	       			<td> {{ message.user }} </td>
+	       			<td> {{ message.message }} </td>
+	       		</tr>
+	          </tbody>
+          </table>
+
      	</div>
   	</div>
   </div>
