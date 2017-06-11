@@ -1,0 +1,155 @@
+
+<div class="container">
+  <div class="row" ng-controller="TabController">
+  	<div class="col-md-2">
+  		<ul class="nav nav-pills nav-stacked">
+       	<li ng-class="{ active: vm.isSet(1) }">
+          	<a href ng-click="vm.setTab(1)">Home</a>
+       	</li>
+       	<li ng-class="{ active: vm.isSet(2) }">
+          	<a href ng-click="vm.setTab(2)">Profile</a>
+       	</li>
+       	<li ng-class="{ active: vm.isSet(3) }">
+          	<a href ng-click="vm.setTab(3)">Add Quiz</a>
+       	</li>
+       	<li ng-class="{ active: vm.isSet(4) }">
+          	<a href ng-click="vm.setTab(4)">Messages</a>
+       	</li>
+     	</ul>
+  	</div>
+  	
+    <div class="col-md-8">
+  		<div class="jumbotron">
+       	<div ng-show="vm.isSet(1)">
+         	<h1>Home</h1>
+           	<p>Welcome {{vm.user.firstName}}!!</p>
+ 
+           	Lore is a mobile education tool which aims at educating kids who do not have access to formal education. Thanks for being a volunteer to help the kids and spread education. You can do the following: 
+
+          	<li> Add a new quiz set by adding a set of learning slides and a corresponding set of questions as a quiz. </li>
+          	<li> View your profile, the list of quizzes added and the feedback received from the kids for those quizzes.  </li>
+          	<li> View your messages and respond to the messages. </li>
+           	
+         	 <p><a class="btn btn-primary btn-lg" role="button">Learn more</a></p>
+        </div>
+		
+		<div ng-show="vm.isSet(2)">
+          <h1>Profile</h1>
+          <p>Profile information</p>
+     	</div>
+        
+        <div ng-show="vm.isSet(3)">
+          <h1>Add Quiz</h1>
+           <form ng-submit="vm.submitAddQuizForm()">
+          	<div class="form-group">
+          	
+	          	<label for="quizname">Quiz name</label>
+	          	<input type="text" class="form-control" id="quizname" placeholder="Enter Quiz name" ng-model="vm.quizname">
+	          	
+	          	<div class="form-group">
+	    			<label for="category">Select category select</label>
+	   				<select class="form-control" id="category" ng-model="vm.category">
+	     				<option selected="selected">Science</option>
+	     				<option>Maths</option>
+					    <option>History</option>
+					    <option>Computer</option>
+					    <option>Economics</option>
+	   				</select>
+	  			</div>
+	          	<div class="form-group">
+	    			<label for="targetclass">Select target class</label>
+	   				<select class="form-control" id="targetclass" ng-model="vm.targetclass">
+	     				<option selected="selected">8+</option>
+	     				<option>10+</option>
+					    <option>13+</option>
+					    <option>15+</option>
+	   				</select>
+	  			</div>
+	  				  			
+	          	<div class="form-group">
+	    			<label for="language">Language</label>
+	   				<select class="form-control" id="language" ng-model="vm.language">
+	     				<option value="English" selected="selected">English</option>
+	     				<option value="Hindi">Hindi</option>
+					    <option value="French">French</option>
+					    <option value="Spanish">Spanish</option>
+	   				</select>
+	  			</div>
+
+	  			<div class="form-group">
+    				<label for="material"> Learning material </label>
+    				<textarea class="form-control" id="material" rows="5" ng-model="vm.material"></textarea>
+  				</div>
+  				
+	          	<div class="form-group">
+	    			<label for="numquestions">Number of questions</label>
+	   				<select class="form-control" id="numquestions" ng-model="vm.numquestions" ng-change="vm.updateNumQuestions()">
+	     				<option selected="selected">1</option>
+	     				<option>2</option>
+					    <option>3</option>
+					    <option>4</option>
+	     				<option>5</option>
+	     				<option>6</option>
+					    <option>7</option>
+					    <option>8</option>
+	   				</select>
+	  			</div>
+	  			
+	  			<div class="form-group" ng-repeat="x in vm.questionnumbers">
+	  				<label for="question"> Question {{x}} </label>
+	  				<input type="text" class="form-control" id="question_{{$index}}" placeholder="Enter Question">
+	  				
+	  				<fieldset class="form-group">
+    					<legend>Answers</legend>
+     					<div class="form-check">
+      						<label class="form-check-label">
+        						<input type="radio" class="form-check-input" name="radio_{{$index}}_1" id="radio_{{$index}}_1" value="radio_{{$index}}_1" >
+        						<input type="text" name="ans_{{$index}}_1" id="ans_{{$index}}_1"/>
+      						</label>
+    					</div>
+     					<div class="form-check">
+      						<label class="form-check-label">
+        						<input type="radio" class="form-check-input" name="radio_{{$index}}_2" id="radio_{{$index}}_2" value="radio_{{$index}}_2" >
+        						<input type="text" name="ans_{{$index}}_2" id="ans_{{$index}}_2"/>
+      						</label>
+    					</div>
+     					<div class="form-check">
+      						<label class="form-check-label">
+        						<input type="radio" class="form-check-input" name="radio_{{$index}}_3" id="radio_{{$index}}_3" value="radio_{{$index}}_3" >
+        						<input type="text" name="ans_{{$index}}_3" id="ans_{{$index}}_3"/>
+      						</label>
+    					</div>
+
+ <!-- 					    <div class="form-check">
+					    <label class="form-check-label">
+        						<input type="radio" class="form-check-input" name="radio2" id="radio2" value="ans1">
+        						<input type="text" name="ans1" id="ans1" />
+					      </label>
+					    </div>
+					    <div class="form-check">
+					    <label class="form-check-label">
+        						<input type="radio" class="form-check-input" name="ans1" id="ans1" value="ans1">
+        						<input type="text" name="ans1" id="ans1" />
+					      </label>
+					    </div>
+ -->				  </fieldset>	
+	  			</div>
+  				
+  
+	  			<button type="submit" class="btn btn-primary">Submit</button>
+          	</div>
+          </form>
+      	</div>
+
+        <div ng-show="vm.isSet(4)">
+          <h1>Messages</h1>
+          <p> Some messages </p>
+     	</div>
+  	</div>
+  </div>
+</div>
+
+
+<!-- 
+
+ -->
